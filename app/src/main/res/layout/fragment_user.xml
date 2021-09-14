@@ -5,23 +5,90 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorSurface"
     tools:context=".fragments.UserFragment">
 
     <TextView
         android:id="@+id/user_name_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="UserDetails"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        android:textSize="20sp"
+        tools:text="UserName"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/friends_list_rv"
+    <TextView
+        android:id="@+id/user_age_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        tools:text="46"
         app:layout_constraintTop_toBottomOf="@+id/user_name_tv"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="46dp" />
 
-    </androidx.recyclerview.widget.RecyclerView>
+    <TextView
+        android:id="@+id/user_company_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        android:text="Google"
+        app:layout_constraintTop_toBottomOf="@+id/user_age_tv"
+        tools:layout_editor_absoluteX="46dp" />
+
+    <TextView
+        android:id="@+id/user_email_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        tools:text="google@google.com"
+        app:layout_constraintTop_toBottomOf="@+id/user_company_tv"
+        tools:layout_editor_absoluteX="56dp" />
+
+    <TextView
+        android:id="@+id/user_phone_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        tools:text="+79999999999"
+        app:layout_constraintTop_toBottomOf="@+id/user_email_tv"
+        tools:layout_editor_absoluteX="65dp" />
+
+    <TextView
+        android:id="@+id/user_address_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Russia, Saint-Petersburg"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/user_phone_tv"
+        tools:layout_editor_absoluteX="75dp" />
+
+    <TextView
+        android:id="@+id/user_about_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingStart="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/user_address_tv"
+        tools:layout_editor_absoluteX="0dp"
+        tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. " />
+
+    <Button
+        android:id="@+id/friends_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="64dp"
+        android:text="@string/friends"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/user_about_tv">
+
+    </Button>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

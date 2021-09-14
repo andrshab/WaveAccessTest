@@ -3,6 +3,7 @@ package com.waveaccess.test.data.local
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.waveaccess.test.data.User
 
 @Entity(tableName = "users")
 data class UserDb (

@@ -2,16 +2,13 @@ package com.waveaccess.test.fragments
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.waveaccess.test.App
 import com.waveaccess.test.R
-import com.waveaccess.test.adapters.UsersListAdapter
-import com.waveaccess.test.data.User
 import com.waveaccess.test.data.local.UserDb
 import com.waveaccess.test.viewmodels.UserViewModel
 import com.waveaccess.test.viewmodels.ViewModelFactory
@@ -23,8 +20,15 @@ class UserFragment : Fragment() {
     @Inject lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: UserViewModel
     private var userId: Int = 0
-    private lateinit var userName: TextView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var nameTv: TextView
+    private lateinit var ageTv: TextView
+    private lateinit var companyTv: TextView
+    private lateinit var emailTv: TextView
+    private lateinit var phoneTv: TextView
+    private lateinit var addressTv: TextView
+    private lateinit var aboutTv: TextView
+    private lateinit var friendsBtn: Button
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,28 +49,38 @@ class UserFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        userName = view.findViewById(R.id.user_name_tv)
-        recyclerView = view.findViewById(R.id.friends_list_rv)
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        nameTv = view.findViewById(R.id.user_name_tv)
+        ageTv = view.findViewById(R.id.user_age_tv)
+        companyTv = view.findViewById(R.id.user_company_tv)
+        emailTv = view.findViewById(R.id.user_email_tv)
+        phoneTv = view.findViewById(R.id.user_phone_tv)
+        addressTv = view.findViewById(R.id.user_address_tv)
+        aboutTv = view.findViewById(R.id.user_about_tv)
+        friendsBtn = view.findViewById(R.id.friends_btn)
         val userDataObserver = Observer<UserDb> {
-            userName.text = it.name
-            val idList: List<Int> = it.friends?: listOf()
-            viewModel.loadFriends(idList)
-        }
-        val friendsListObserver = Observer<List<UserDb>> {
-            val adapter = UsersListAdapter(it)
-            adapter.onItemClick = { id ->
-                val fm = activity?.supportFragmentManager
-                fm?.beginTransaction()
-                    ?.add(R.id.fragment_container_view, newInstance(id))
-                    ?.addToBackStack(null)
-                    ?.commit()
-            }
-            recyclerView.adapter = adapter
+            nameTv.text = it.name
+            ageTv.text = it.age
+            companyTv.text = it.company
+            emailTv.text = it.email
+            phoneTv.text = it.phone
+            addressTv.text = it.address
+            aboutTv.text = it.about
+            setFriendsButton(it.friends?: listOf())
         }
         viewModel.userData.observe(viewLifecycleOwner, userDataObserver)
-        viewModel.friendsList.observe(viewLifecycleOwner, friendsListObserver)
         viewModel.loadUser(userId)
+    }
+
+    private fun setFriendsButton(list: List<Int>) {
+        val al = arrayListOf<Int>()
+        al.addAll(list)
+        friendsBtn.setOnClickListener {
+            val fm = activity?.supportFragmentManager
+            fm?.beginTransaction()
+                ?.add(R.id.fragment_container_view, UsersFragment.newInstance(al))
+                ?.addToBackStack(null)
+                ?.commit()
+        }
     }
 
 
