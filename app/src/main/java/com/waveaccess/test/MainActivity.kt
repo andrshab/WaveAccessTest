@@ -26,6 +26,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         }
     }
 
+
     override fun onBackPressed() {
         super.onBackPressed()
         val index = supportFragmentManager.backStackEntryCount - 1
