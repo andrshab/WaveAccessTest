@@ -1,5 +1,6 @@
 package com.waveaccess.test.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,22 +15,35 @@ class UsersViewModel @Inject constructor(
     private val localRepository: LocalRepository
 ): ViewModel() {
     val usersList: MutableLiveData<List<UserDb>> = MutableLiveData()
+    fun checkUsers() {
+        viewModelScope.launch {
+            val users = localRepository.getAll()
+            if(users.isNotEmpty()) {
+                usersList.value = users
+            } else {
+                refreshUsers()
+            }
+        }
+    }
     fun refreshUsers() {
         viewModelScope.launch {
             val users = remoteRepository.getUsers()
+            localRepository.clear()
             for(user in users) {
                 localRepository.saveUser(user)
             }
             usersList.value = localRepository.getAll()
         }
     }
-    fun loadUsers(list: List<Int>? = null) {
+    fun loadUsers(list: List<Int>?) {
         viewModelScope.launch {
-            if(list == null) {
-                usersList.value = localRepository.getAll()// TODO change to getWithIds
-            } else {
-                usersList.value = localRepository.getAll()
+            val ul = mutableListOf<UserDb>()
+            if (list != null) {
+                for(id in list) {
+                    ul.add(localRepository.getUser(id))
+                }
             }
+            usersList.value = ul
         }
     }
 

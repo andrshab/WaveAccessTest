@@ -5,29 +5,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.waveaccess.test.App
 import com.waveaccess.test.R
+import com.waveaccess.test.data.local.UserDb
 import com.waveaccess.test.viewmodels.UserViewModel
 import com.waveaccess.test.viewmodels.ViewModelFactory
 import javax.inject.Inject
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val USER_ID = "user_id"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [UserFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class UserFragment : Fragment() {
     @Inject lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: UserViewModel
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private var userId: Int = 0
+    private lateinit var userName: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,8 +29,7 @@ class UserFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            userId = it.getInt(USER_ID)
         }
     }
 
@@ -44,26 +37,34 @@ class UserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user, container, false)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        userName = view.findViewById(R.id.user_name_tv)
+        val userDataObserver = Observer<UserDb> {
+            userName.text = it.name
+            val idList: List<Int> = it.friends?: listOf()
+            val arrayList = arrayListOf<Int>()
+            for(id in idList) {
+                arrayList.add(id)
+            }
+
+            childFragmentManager.beginTransaction()
+                .replace(R.id.child_fragment_container, UsersFragment.newInstance(arrayList))
+                .commit()
+        }
+        viewModel.userData.observe(viewLifecycleOwner, userDataObserver)
+        viewModel.loadUser(userId)
+    }
+
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment UserFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(userId: Int) =
             UserFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putInt(USER_ID, userId)
                 }
             }
     }

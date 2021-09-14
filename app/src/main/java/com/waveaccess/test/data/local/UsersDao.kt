@@ -8,6 +8,8 @@ import androidx.room.Query
 interface UsersDao {
     @Query("SELECT * FROM users")
     suspend fun getAll(): List<UserDb>
+    @Query("SELECT * FROM users WHERE user_id = :id")
+    suspend fun getUser(id: Int): UserDb
     @Insert
     suspend fun insert(record: UserDb)
     @Query("DELETE FROM users")

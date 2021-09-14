@@ -10,6 +10,9 @@ class LocalRepository @Inject constructor(private val db: AppDatabase) {
     suspend fun getAll(): List<UserDb> {
         return db.usersDao().getAll()
     }
+    suspend fun getUser(id: Int): UserDb {
+        return db.usersDao().getUser(id)
+    }
     suspend fun clear() {
         db.usersDao().deleteAll()
     }
