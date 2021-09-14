@@ -1,12 +1,13 @@
 package com.waveaccess.test.data.local
 
+import com.waveaccess.test.data.User
 import javax.inject.Inject
 
 class LocalRepository @Inject constructor(private val db: AppDatabase) {
-    suspend fun saveRecord(userId: Int?) {
-        db.usersDao().insert(User(userId))
+    suspend fun saveUser(user: User) {
+        db.usersDao().insert(user.convertToDb())
     }
-    suspend fun getAll(): List<User> {
+    suspend fun getAll(): List<UserDb> {
         return db.usersDao().getAll()
     }
     suspend fun clear() {

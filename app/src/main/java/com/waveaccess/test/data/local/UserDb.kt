@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "users")
-data class User (
+data class UserDb (
     @ColumnInfo(name = "user_id") var user_id: Int?,
     @PrimaryKey(autoGenerate = true) var id: Int = 0) {
 }

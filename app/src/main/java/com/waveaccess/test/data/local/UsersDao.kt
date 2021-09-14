@@ -7,9 +7,9 @@ import androidx.room.Query
 @Dao
 interface UsersDao {
     @Query("SELECT * FROM users")
-    suspend fun getAll(): List<User>
+    suspend fun getAll(): List<UserDb>
     @Insert
-    suspend fun insert(record: User)
+    suspend fun insert(record: UserDb)
     @Query("DELETE FROM users")
     suspend fun deleteAll()
 }
