@@ -31,6 +31,7 @@ class UsersFragment : Fragment() {
         super.onCreate(savedInstanceState)
         (activity?.applicationContext as App).appComponent.inject(this)
         viewModel = ViewModelProvider(this, viewModelFactory)[UsersViewModel::class.java]
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -49,7 +50,7 @@ class UsersFragment : Fragment() {
             adapter.onItemClick = { id ->
                 val fm = activity?.supportFragmentManager
                 fm?.beginTransaction()
-                    ?.replace(R.id.fragment_container_view, UserFragment.newInstance(id))
+                    ?.add(R.id.fragment_container_view, UserFragment.newInstance(id))
                     ?.addToBackStack(null)
                     ?.commit()
             }
@@ -57,10 +58,8 @@ class UsersFragment : Fragment() {
         }
         viewModel.usersList.observe(viewLifecycleOwner, usersListObserver)
         if(arguments == null) {
-            setHasOptionsMenu(true)
             viewModel.checkUsers()
         } else {
-            setHasOptionsMenu(false)
             arguments?.let {
                 list = it.getIntegerArrayList(USERS_LIST)
                 viewModel.loadUsers(list)

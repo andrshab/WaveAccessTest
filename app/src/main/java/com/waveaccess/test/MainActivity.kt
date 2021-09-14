@@ -25,14 +25,4 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
             addToBackStack(null)
         }
     }
-
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        val index = supportFragmentManager.backStackEntryCount - 1
-        val tag = supportFragmentManager.getBackStackEntryAt(index)
-        if(tag.equals("main")) {
-
-        }
-    }
 }
