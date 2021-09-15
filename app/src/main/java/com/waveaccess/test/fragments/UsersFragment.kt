@@ -1,12 +1,10 @@
 package com.waveaccess.test.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import android.widget.Toast
-import androidx.core.view.isEmpty
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.waveaccess.test.App
 import com.waveaccess.test.R
 import com.waveaccess.test.adapters.UsersListAdapter
-import com.waveaccess.test.data.local.UserDb
+import com.waveaccess.test.data.User
 import com.waveaccess.test.viewmodels.UsersViewModel
 import com.waveaccess.test.viewmodels.ViewModelFactory
 import javax.inject.Inject
@@ -53,7 +51,7 @@ class UsersFragment : Fragment() {
         friendsTitleTv = view.findViewById(R.id.friends_title_tv)
         friendsTitleTv.visibility = View.GONE
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val usersListObserver = Observer<List<UserDb>> {
+        val usersListObserver = Observer<List<User>> {
             val adapter = UsersListAdapter(it)
             adapter.onItemClick = { id, isActive ->
                 if(isActive) {

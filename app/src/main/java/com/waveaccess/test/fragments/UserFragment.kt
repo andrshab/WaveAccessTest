@@ -4,7 +4,6 @@ import android.content.Intent
 import android.location.Location
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.ImageView
@@ -15,7 +14,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.waveaccess.test.App
 import com.waveaccess.test.R
-import com.waveaccess.test.data.local.UserDb
+import com.waveaccess.test.data.User
 import com.waveaccess.test.viewmodels.UserViewModel
 import com.waveaccess.test.viewmodels.ViewModelFactory
 import java.text.ParseException
@@ -75,7 +74,7 @@ class UserFragment : Fragment() {
         registeredTv = view.findViewById(R.id.user_registered_tv)
         locationTv = view.findViewById(R.id.location_tv)
         friendsBtn = view.findViewById(R.id.friends_btn)
-        val userDataObserver = Observer<UserDb> {
+        val userDataObserver = Observer<User> {
             nameTv.text = it.name
             ageTv.text = it.age
             companyTv.text = it.company
@@ -87,7 +86,7 @@ class UserFragment : Fragment() {
             favFruitIv.setBackgroundResource(favFruit(it.favorite_fruit))
             registeredTv.text = formatTime(it.registered)
             setLocation(it.latitude, it.longitude)
-            setFriendsButton(it.friends?: listOf(), it.name?: "")
+            setFriendsButton(it.friendsIds?: listOf(), it.name?: "")
         }
         viewModel.userData.observe(viewLifecycleOwner, userDataObserver)
         viewModel.loadUser(userId)

@@ -1,16 +1,15 @@
 package com.waveaccess.test.adapters
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.waveaccess.test.R
-import com.waveaccess.test.data.local.UserDb
+import com.waveaccess.test.data.User
 
-class UsersListAdapter(private val usersList: List<UserDb>):
+class UsersListAdapter(private val usersList: List<User>):
     RecyclerView.Adapter<UsersListAdapter.ItemViewHolder>() {
     var onItemClick: ((Int, Boolean) -> Unit)? = null
     inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {

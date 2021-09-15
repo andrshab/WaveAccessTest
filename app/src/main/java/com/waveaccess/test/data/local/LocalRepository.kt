@@ -5,12 +5,12 @@ import javax.inject.Inject
 
 class LocalRepository @Inject constructor(private val db: AppDatabase) {
     suspend fun saveUser(user: User) {
-        db.usersDao().insert(user.convertToDb())
+        db.usersDao().insert(user)
     }
-    suspend fun getAll(): List<UserDb> {
+    suspend fun getAll(): List<User> {
         return db.usersDao().getAll()
     }
-    suspend fun getUser(id: Int): UserDb {
+    suspend fun getUser(id: Int): User {
         return db.usersDao().getUser(id)
     }
     suspend fun clear() {
