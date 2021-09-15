@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/drawable/circle_shape.xml" value="0.15885416666666666" />
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2846153846153846" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/layout/activity_main.xml" value="0.14270833333333333" />
-        <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/layout/fragment_user.xml" value="0.25" />
-        <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/layout/fragment_users.xml" value="0.14270833333333333" />
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/layout/fragment_user.xml" value="0.5" />
+        <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/layout/fragment_users.xml" value="0.5" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/layout/list_item_users.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/Professional/AndroidStudioProjects/WaveAccessTest/app/src/main/res/menu/menu_users.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/Professional/AppData/Local/Android/Sdk/platforms/android-30/data/res/drawable/ic_lock_lock.xml" value="0.2846153846153846" />
       </map>
     </option>
   </component>

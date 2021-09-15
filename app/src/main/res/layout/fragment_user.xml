@@ -1,101 +1,160 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
-    tools:context=".fragments.UserFragment">
-
-    <TextView
-        android:id="@+id/user_name_tv"
+    android:clickable="true"
+    android:focusable="true">
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:textSize="20sp"
-        tools:text="UserName"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:context=".fragments.UserFragment">
 
-    <TextView
-        android:id="@+id/user_age_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        tools:text="46"
-        app:layout_constraintTop_toBottomOf="@+id/user_name_tv"
-        tools:layout_editor_absoluteX="46dp" />
+        <TextView
+            android:id="@+id/user_name_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:textSize="20sp"
+            tools:text="UserName"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/user_company_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        tools:text="Google"
-        app:layout_constraintTop_toBottomOf="@+id/user_age_tv"
-        tools:layout_editor_absoluteX="46dp" />
+        <TextView
+            android:id="@+id/user_age_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            tools:text="46"
+            app:layout_constraintTop_toBottomOf="@+id/user_name_tv"
+            tools:layout_editor_absoluteX="46dp" />
 
-    <TextView
-        android:id="@+id/user_email_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        tools:text="google@google.com"
-        app:layout_constraintTop_toBottomOf="@+id/user_company_tv"
-        tools:layout_editor_absoluteX="56dp" />
+        <TextView
+            android:id="@+id/user_company_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            tools:text="Google"
+            app:layout_constraintTop_toBottomOf="@+id/user_age_tv"
+            tools:layout_editor_absoluteX="46dp" />
 
-    <TextView
-        android:id="@+id/user_phone_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        tools:text="+79999999999"
-        app:layout_constraintTop_toBottomOf="@+id/user_email_tv"
-        tools:layout_editor_absoluteX="65dp" />
+        <TextView
+            android:id="@+id/user_email_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="email"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            tools:text="google@google.com"
+            app:layout_constraintTop_toBottomOf="@+id/user_company_tv"
+            tools:layout_editor_absoluteX="56dp" />
 
-    <TextView
-        android:id="@+id/user_address_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="Russia, Saint-Petersburg"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/user_phone_tv"
-        tools:layout_editor_absoluteX="75dp" />
+        <TextView
+            android:id="@+id/user_phone_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:autoLink="phone"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            tools:text="+79999999999"
+            app:layout_constraintTop_toBottomOf="@+id/user_email_tv"
+            tools:layout_editor_absoluteX="65dp" />
 
-    <TextView
-        android:id="@+id/user_about_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/user_address_tv"
-        tools:layout_editor_absoluteX="0dp"
-        tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. " />
+        <TextView
+            android:id="@+id/user_address_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Russia, Saint-Petersburg"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/user_phone_tv"
+            tools:layout_editor_absoluteX="75dp" />
 
-    <Button
-        android:id="@+id/friends_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
-        android:text="@string/friends"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_about_tv">
+        <TextView
+            android:id="@+id/user_about_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/user_address_tv"
+            tools:layout_editor_absoluteX="0dp"
+            tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. " />
 
-    </Button>
+        <View
+            android:id="@+id/user_eye_color_view"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/grey"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_about_tv">
+
+        </View>
+
+        <ImageView
+            android:id="@+id/user_favourite_fruit_iv"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_eye_color_view">
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </ImageView>
+
+        <TextView
+            android:id="@+id/user_registered_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            tools:text="2016-02-14T09:26:27 -03:00"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_favourite_fruit_iv" />
+
+        <TextView
+            android:id="@+id/location_tv"
+            android:textColor="@color/teal_200"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            tools:text="41°24'12.2 &quot;N 2°10'26.5 &quot;E"
+            app:layout_constraintTop_toBottomOf="@+id/user_registered_tv"
+            tools:layout_editor_absoluteX="67dp" />
+
+        <Button
+            android:id="@+id/friends_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/friends"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/location_tv">
+
+        </Button>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
+
+

@@ -20,6 +20,18 @@ data class User(
     val address: String,
     @SerializedName("about")
     val about: String,
+    @SerializedName("isActive")
+    val isActive: Boolean,
+    @SerializedName("eyeColor")
+    val eyeColor: String,
+    @SerializedName("favoriteFruit")
+    val favoriteFruit: String,
+    @SerializedName("registered")
+    val registered: String,
+    @SerializedName("latitude")
+    val latitude: Double,
+    @SerializedName("longitude")
+    val longitude: Double,
     @SerializedName("friends")
     val friends: List<User>
 ) {
@@ -33,6 +45,12 @@ data class User(
             phone,
             address,
             about,
+            isActive,
+            eyeColor,
+            favoriteFruit,
+            registered,
+            latitude,
+            longitude,
             friends.map { it.userId })
     }
 }

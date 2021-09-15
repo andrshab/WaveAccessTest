@@ -1,10 +1,16 @@
 package com.waveaccess.test.fragments
 
+import android.content.Intent
+import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.waveaccess.test.App
@@ -12,7 +18,11 @@ import com.waveaccess.test.R
 import com.waveaccess.test.data.local.UserDb
 import com.waveaccess.test.viewmodels.UserViewModel
 import com.waveaccess.test.viewmodels.ViewModelFactory
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 private const val USER_ID = "user_id"
 
@@ -27,6 +37,10 @@ class UserFragment : Fragment() {
     private lateinit var phoneTv: TextView
     private lateinit var addressTv: TextView
     private lateinit var aboutTv: TextView
+    private lateinit var eyeColor: View
+    private lateinit var favFruitIv: ImageView
+    private lateinit var registeredTv: TextView
+    private lateinit var locationTv: TextView
     private lateinit var friendsBtn: Button
 
 
@@ -56,6 +70,10 @@ class UserFragment : Fragment() {
         phoneTv = view.findViewById(R.id.user_phone_tv)
         addressTv = view.findViewById(R.id.user_address_tv)
         aboutTv = view.findViewById(R.id.user_about_tv)
+        eyeColor = view.findViewById(R.id.user_eye_color_view)
+        favFruitIv = view.findViewById(R.id.user_favourite_fruit_iv)
+        registeredTv = view.findViewById(R.id.user_registered_tv)
+        locationTv = view.findViewById(R.id.location_tv)
         friendsBtn = view.findViewById(R.id.friends_btn)
         val userDataObserver = Observer<UserDb> {
             nameTv.text = it.name
@@ -65,19 +83,71 @@ class UserFragment : Fragment() {
             phoneTv.text = it.phone
             addressTv.text = it.address
             aboutTv.text = it.about
-            setFriendsButton(it.friends?: listOf())
+            eyeColor.setBackgroundColor(eyeColor(it.eye_color))
+            favFruitIv.setBackgroundResource(favFruit(it.favorite_fruit))
+            registeredTv.text = formatTime(it.registered)
+            locationTv.text = formatLocation(it.latitude, it.longitude)
+            setFriendsButton(it.friends?: listOf(), it.name?: "")
         }
         viewModel.userData.observe(viewLifecycleOwner, userDataObserver)
         viewModel.loadUser(userId)
     }
 
-    private fun setFriendsButton(list: List<Int>) {
+    private fun formatLocation(lat: Double, lng: Double): String {
+
+        Log.d("UserFragment", "$lat, $lng")
+
+        locationTv.setOnClickListener {
+            val gmmIntentUri = Uri.parse("geo:$lat, $lng")
+//            val gmmIntentUri = Uri.parse("geo:59.5557861328125, 30.010909080505371")
+
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.setPackage("com.google.android.apps.maps")
+            startActivity(mapIntent)
+        }
+        return  LocationConverter.latitudeAsDMS(lat,1) + LocationConverter.longitudeAsDMS(lng, 1)
+    }
+
+    private fun formatTime(t: String): String {
+        val sdf = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss z", Locale.US)
+        val newSdf = SimpleDateFormat("HH:mm dd.MM.yy", Locale.US)
+        sdf.timeZone = TimeZone.getTimeZone("GMT")
+        var formatted = ""
+        try {
+            val date = sdf.parse(t)
+            if(date != null) {
+                formatted = newSdf.format(date)
+            }
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return formatted
+    }
+
+    private fun favFruit(f: String): Int{
+        return when(f){
+            "banana" -> R.drawable.banana_64
+            "apple" -> R.drawable.apple_64
+            "strawberry" -> R.drawable.strawberry_64
+            else -> android.R.drawable.ic_menu_help
+        }
+    }
+    private fun eyeColor(col: String): Int{
+        return when(col){
+            "brown" -> ContextCompat.getColor(requireContext(), R.color.brown)
+            "green" -> ContextCompat.getColor(requireContext(), R.color.green)
+            "blue" -> ContextCompat.getColor(requireContext(), R.color.blue)
+            else -> ContextCompat.getColor(requireContext(), R.color.grey)
+        }
+    }
+
+    private fun setFriendsButton(list: List<Int>, name: String) {
         val al = arrayListOf<Int>()
         al.addAll(list)
         friendsBtn.setOnClickListener {
             val fm = activity?.supportFragmentManager
             fm?.beginTransaction()
-                ?.add(R.id.fragment_container_view, UsersFragment.newInstance(al))
+                ?.add(R.id.fragment_container_view, UsersFragment.newInstance(al, name))
                 ?.addToBackStack(null)
                 ?.commit()
         }
@@ -87,6 +157,37 @@ class UserFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         menu.clear()
+    }
+    object LocationConverter {
+
+        fun latitudeAsDMS(latitude: Double, decimalPlace: Int): String {
+            val direction = if (latitude > 0) "N" else "S"
+            var strLatitude = Location.convert(latitude.absoluteValue, Location.FORMAT_SECONDS)
+            strLatitude = replaceDelimiters(strLatitude, decimalPlace)
+            strLatitude += " $direction"
+            return strLatitude
+        }
+
+        fun longitudeAsDMS(longitude: Double, decimalPlace: Int): String {
+            val direction = if (longitude > 0) "W" else "E"
+            var strLongitude = Location.convert(longitude.absoluteValue, Location.FORMAT_SECONDS)
+            strLongitude = replaceDelimiters(strLongitude, decimalPlace)
+            strLongitude += " $direction"
+            return strLongitude
+        }
+
+        private fun replaceDelimiters(str: String, decimalPlace: Int): String {
+            var str = str
+            str = str.replaceFirst(":".toRegex(), "°")
+            str = str.replaceFirst(":".toRegex(), "'")
+            val pointIndex = str.indexOf(".")
+            val endIndex = pointIndex + 1 + decimalPlace
+            if (endIndex < str.length) {
+                str = str.substring(0, endIndex)
+            }
+            str += "\""
+            return str
+        }
     }
 
     companion object {
