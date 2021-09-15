@@ -178,7 +178,7 @@ class UserFragment : Fragment() {
             val direction = if (latitude > 0) "N" else "S"
             var strLatitude = Location.convert(latitude.absoluteValue, Location.FORMAT_SECONDS)
             strLatitude = replaceDelimiters(strLatitude)
-            strLatitude += " $direction"
+            strLatitude += direction
             return strLatitude
         }
 
@@ -186,7 +186,7 @@ class UserFragment : Fragment() {
             val direction = if (longitude > 0) "W" else "E"
             var strLongitude = Location.convert(longitude.absoluteValue, Location.FORMAT_SECONDS)
             strLongitude = replaceDelimiters(strLongitude)
-            strLongitude += "$direction"
+            strLongitude += direction
             return strLongitude
         }
 
