@@ -79,24 +79,39 @@ class UserFragment : Fragment() {
             nameTv.text = it.name
             ageTv.text = it.age
             companyTv.text = it.company
-            emailTv.text = it.email
-            phoneTv.text = it.phone
+            setEmail(it.email)
+            setPhone(it.phone)
             addressTv.text = it.address
             aboutTv.text = it.about
             eyeColor.setBackgroundColor(eyeColor(it.eye_color))
             favFruitIv.setBackgroundResource(favFruit(it.favorite_fruit))
             registeredTv.text = formatTime(it.registered)
-            locationTv.text = formatLocation(it.latitude, it.longitude)
+            setLocation(it.latitude, it.longitude)
             setFriendsButton(it.friends?: listOf(), it.name?: "")
         }
         viewModel.userData.observe(viewLifecycleOwner, userDataObserver)
         viewModel.loadUser(userId)
     }
 
-    private fun formatLocation(lat: Double, lng: Double): String {
+    private fun setPhone(phone: String?) {
+        phoneTv.text = phone
+        phoneTv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel: $phone"))
+            startActivity(intent)
+        }
+    }
 
-        Log.d("UserFragment", "$lat, $lng")
+    private fun setEmail(email: String?) {
+        emailTv.text = email
+        emailTv.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto: $email"))
+            startActivity(intent)
+        }
+    }
 
+    private fun setLocation(lat: Double, lng: Double){
+        val ls = LocationConverter.latitudeAsDMS(lat) + " " + LocationConverter.longitudeAsDMS(lng)
+        locationTv.text = ls
         locationTv.setOnClickListener {
             val gmmIntentUri = Uri.parse("geo:$lat, $lng")
 //            val gmmIntentUri = Uri.parse("geo:59.5557861328125, 30.010909080505371")
@@ -105,7 +120,6 @@ class UserFragment : Fragment() {
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)
         }
-        return  LocationConverter.latitudeAsDMS(lat) + " " + LocationConverter.longitudeAsDMS(lng)
     }
 
     private fun formatTime(t: String): String {
