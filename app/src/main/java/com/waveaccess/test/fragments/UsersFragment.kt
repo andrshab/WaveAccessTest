@@ -46,6 +46,9 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.networkError = {
+            Toast.makeText(context, getString(R.string.load_error), Toast.LENGTH_SHORT).show()
+        }
         recyclerView = view.findViewById(R.id.users_list_rv)
         friendsTitleTv = view.findViewById(R.id.friends_title_tv)
         friendsTitleTv.visibility = View.GONE

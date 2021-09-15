@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.waveaccess.test.api.ErrorCallback
+import com.waveaccess.test.api.Exceptions
 import com.waveaccess.test.data.RemoteRepository
 import com.waveaccess.test.data.local.LocalRepository
 import com.waveaccess.test.data.local.UserDb
@@ -15,6 +17,7 @@ class UsersViewModel @Inject constructor(
     private val localRepository: LocalRepository
 ): ViewModel() {
     val usersList: MutableLiveData<List<UserDb>> = MutableLiveData()
+    lateinit var networkError: () -> Unit
     fun checkUsers() {
         viewModelScope.launch {
             val users = localRepository.getAll()
@@ -26,7 +29,7 @@ class UsersViewModel @Inject constructor(
         }
     }
     fun refreshUsers() {
-        viewModelScope.launch {
+        viewModelScope.launch(Exceptions.handler + ErrorCallback{networkError.invoke()}) {
             val users = remoteRepository.getUsers()
             localRepository.clear()
             for(user in users) {
