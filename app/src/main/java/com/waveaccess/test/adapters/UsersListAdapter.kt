@@ -1,5 +1,6 @@
 package com.waveaccess.test.adapters
 
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,14 +12,17 @@ import com.waveaccess.test.data.local.UserDb
 
 class UsersListAdapter(private val usersList: List<UserDb>):
     RecyclerView.Adapter<UsersListAdapter.ItemViewHolder>() {
-    var onItemClick: ((Int) -> Unit)? = null
+    var onItemClick: ((Int, Boolean) -> Unit)? = null
     inner class ItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val userNameTv: TextView = view.findViewById(R.id.users_list_item_name)
+        val emailTv: TextView = view.findViewById(R.id.users_list_item_email)
+        val isActive: View = view.findViewById(R.id.is_active_view)
         init {
             view.setOnClickListener {
                 val userId = usersList[adapterPosition].user_id
+                val isActive = usersList[adapterPosition].is_active?: false
                 if(userId!=null) {
-                    onItemClick?.invoke(userId)
+                    onItemClick?.invoke(userId, isActive)
                 }
             }
         }
@@ -31,10 +35,16 @@ class UsersListAdapter(private val usersList: List<UserDb>):
 
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         holder.userNameTv.text = usersList[position].name
+        holder.emailTv.text = usersList[position].email
+        holder.isActive.setBackgroundColor(isActiveColor(usersList[position].is_active?: false))
     }
 
     override fun getItemCount(): Int {
         return usersList.size
+    }
+
+    private fun isActiveColor(isActive: Boolean): Int {
+        return if(isActive) Color.GREEN else Color.GRAY
     }
 
 }

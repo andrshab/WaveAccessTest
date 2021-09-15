@@ -52,12 +52,14 @@ class UsersFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         val usersListObserver = Observer<List<UserDb>> {
             val adapter = UsersListAdapter(it)
-            adapter.onItemClick = { id ->
-                val fm = activity?.supportFragmentManager
-                fm?.beginTransaction()
-                    ?.add(R.id.fragment_container_view, UserFragment.newInstance(id))
-                    ?.addToBackStack(null)
-                    ?.commit()
+            adapter.onItemClick = { id, isActive ->
+                if(isActive) {
+                    val fm = activity?.supportFragmentManager
+                    fm?.beginTransaction()
+                        ?.add(R.id.fragment_container_view, UserFragment.newInstance(id))
+                        ?.addToBackStack(null)
+                        ?.commit()
+                }
             }
             recyclerView.adapter = adapter
         }
