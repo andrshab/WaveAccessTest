@@ -105,7 +105,7 @@ class UserFragment : Fragment() {
             mapIntent.setPackage("com.google.android.apps.maps")
             startActivity(mapIntent)
         }
-        return  LocationConverter.latitudeAsDMS(lat,1) + LocationConverter.longitudeAsDMS(lng, 1)
+        return  LocationConverter.latitudeAsDMS(lat) + " " + LocationConverter.longitudeAsDMS(lng)
     }
 
     private fun formatTime(t: String): String {
@@ -160,31 +160,26 @@ class UserFragment : Fragment() {
     }
     object LocationConverter {
 
-        fun latitudeAsDMS(latitude: Double, decimalPlace: Int): String {
+        fun latitudeAsDMS(latitude: Double): String {
             val direction = if (latitude > 0) "N" else "S"
             var strLatitude = Location.convert(latitude.absoluteValue, Location.FORMAT_SECONDS)
-            strLatitude = replaceDelimiters(strLatitude, decimalPlace)
+            strLatitude = replaceDelimiters(strLatitude)
             strLatitude += " $direction"
             return strLatitude
         }
 
-        fun longitudeAsDMS(longitude: Double, decimalPlace: Int): String {
+        fun longitudeAsDMS(longitude: Double): String {
             val direction = if (longitude > 0) "W" else "E"
             var strLongitude = Location.convert(longitude.absoluteValue, Location.FORMAT_SECONDS)
-            strLongitude = replaceDelimiters(strLongitude, decimalPlace)
-            strLongitude += " $direction"
+            strLongitude = replaceDelimiters(strLongitude)
+            strLongitude += "$direction"
             return strLongitude
         }
 
-        private fun replaceDelimiters(str: String, decimalPlace: Int): String {
+        private fun replaceDelimiters(str: String): String {
             var str = str
             str = str.replaceFirst(":".toRegex(), "°")
             str = str.replaceFirst(":".toRegex(), "'")
-            val pointIndex = str.indexOf(".")
-            val endIndex = pointIndex + 1 + decimalPlace
-            if (endIndex < str.length) {
-                str = str.substring(0, endIndex)
-            }
             str += "\""
             return str
         }

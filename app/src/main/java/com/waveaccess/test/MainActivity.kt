@@ -1,5 +1,6 @@
 package com.waveaccess.test
 
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,10 +20,11 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            add<UsersFragment>(R.id.fragment_container_view)
-            addToBackStack(null)
+        if(supportFragmentManager.backStackEntryCount == 0){
+            supportFragmentManager.commit {
+                setReorderingAllowed(true)
+                add<UsersFragment>(R.id.fragment_container_view)
+            }
         }
     }
 }
