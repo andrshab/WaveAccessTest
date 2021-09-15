@@ -190,11 +190,11 @@ class UserFragment : Fragment() {
         }
 
         private fun replaceDelimiters(str: String): String {
-            var str = str
-            str = str.replaceFirst(":".toRegex(), "°")
-            str = str.replaceFirst(":".toRegex(), "'")
-            str += "\""
-            return str
+            var s = str
+            s = s.replaceFirst(":".toRegex(), "°")
+            s = s.replaceFirst(":".toRegex(), "'")
+            s += "\""
+            return s
         }
     }
 
